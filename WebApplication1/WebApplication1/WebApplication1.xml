@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApplication1</name>
+    </assembly>
+    <members>
+        <member name="M:WebApplication1.Controllers.AuthController.Register(WebApplication1.Dtos.RegisterDto)">
+            <summary>
+            user registration
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApplication1.Controllers.AuthController.Login(WebApplication1.Dtos.LoginDto)">
+            <summary>
+            user login 
+            </summary>
+            <param name="dto"></param>
+            <returns>ok or bad request</returns>
+        </member>
+        <member name="M:WebApplication1.Controllers.AuthController.User">
+            <summary>
+            varify user authorization
+            </summary>
+            <returns> 200 or 401</returns>
+        </member>
+        <member name="M:WebApplication1.Controllers.AuthController.Logout">
+            <summary>
+            user log out
+            </summary>
+            <returns>message oK</returns>
+        </member>
+        <member name="P:WebApplication1.Dtos.LoginDto.Email">
+            <summary>
+            user email
+            </summary>
+            <example>admin1@as.com</example>
+        </member>
+        <member name="P:WebApplication1.Dtos.LoginDto.Password">
+            <summary>
+            user pass
+            </summary>
+            <example>a2</example>
+        </member>
+    </members>
+</doc>

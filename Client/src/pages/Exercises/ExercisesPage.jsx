@@ -5,7 +5,7 @@ import SearchExercises from '../../components/Exercises/SearchExercises'
 import Exercises from '../../components/Exercises/Exercises'
 import ReactJkMusicPlayer from "react-jinke-music-player";
 import axios from "axios";
-
+import {audioLists} from '../../data/audioLists'
 const ExercisesPage = () => {
     const [exercises, setExercises] = useState([]);
     const [bodyPart, setBodyPart] = useState('all');

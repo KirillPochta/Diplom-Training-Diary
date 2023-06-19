@@ -1,15 +1,15 @@
 import React from 'react';
-import {Calendar, Modal} from 'antd';
+import { Calendar, Modal } from 'antd';
 import locale from 'antd/es/calendar/locale/ru_RU';
-import {formatDate} from '../utils/date';
-import {useDispatch, useSelector} from 'react-redux';
-import {IconButton} from '@mui/material';
+import { formatDate } from '../utils/date';
+import { useDispatch, useSelector } from 'react-redux';
+import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import {deleteEvent, fetchEvents} from '../features/event/eventSlice';
-import {deleteNotefromServer, fetchNotes} from '../features/notesList/notesListSlice';
-import {useNavigate} from 'react-router-dom';
+import { deleteEvent, fetchEvents } from '../features/event/eventSlice';
+import { deleteNotefromServer, fetchNotes } from '../features/notesList/notesListSlice';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 const EventCalendar = () => {
 
@@ -27,12 +27,12 @@ const EventCalendar = () => {
         console.log(currentDayEvents)
         setContent((
             <div>
-                <h3>Ваши записи</h3>
+                <h2>Ваши записи</h2>
                 <ul>
                     {currentDayEvents?.toReversed().map((item) => (
                         <li key={item.id}>
-                            {item.content?.replace(/<\/?[^>]+(>|$)/g, "") ?? item.info}
-                            <IconButton children={<CloseIcon/>} onClick={() => onDelete(item)}/>
+                            <span style={{ fontSize: '20px' }}>{item.content?.replace(/<\/?[^>]+(>|$)/g, "") ?? item.info}</span>
+                            <IconButton children={<CloseIcon />} onClick={() => onDelete(item)} />
                         </li>
                     ))}
                 </ul>
@@ -44,14 +44,14 @@ const EventCalendar = () => {
         alert(item.info)
     }
     const handleOk = () => {
-            setIsModalOpen(false);
-        }
-    ;
+        setIsModalOpen(false);
+    }
+        ;
 
     const handleCancel = () => {
-            setIsModalOpen(false);
-        }
-    ;
+        setIsModalOpen(false);
+    }
+        ;
 
     const onDelete = async (event) => {
         if (event.title) {
@@ -66,21 +66,21 @@ const EventCalendar = () => {
     }
 
     const dateCellRender = (value) => {
-            const formatedDate = formatDate(value.toDate());
-            const currentDayEvents = events?.filter((ev) => (ev.eventDate ?? ev.date) === formatedDate);
-            return (
-                <div>
-                    <ul className="events" onClick={() => showModal(currentDayEvents)}>
-                        {currentDayEvents?.toReversed().map((item) => (
-                            <li style={{fontSize:"20x"}} key={item.id}>
-                                {item.content?.replace(/<\/?[^>]+(>|$)/g, "") ?? item.info}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            );
-        }
-    ;
+        const formatedDate = formatDate(value.toDate());
+        const currentDayEvents = events?.filter((ev) => (ev.eventDate ?? ev.date) === formatedDate);
+        return (
+            <div>
+                <ul className="events" onClick={() => showModal(currentDayEvents)}>
+                    {currentDayEvents?.toReversed().map((item) => (
+                        <li key={item.id}>
+                            <span style={{ fontSize: "40x" }}> {item.content?.replace(/<\/?[^>]+(>|$)/g, "") ?? item.info}</span>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        );
+    }
+        ;
 
 
     return (
@@ -91,9 +91,9 @@ const EventCalendar = () => {
                 monthCellRender={monthCellRender}
             />
             <Modal open={isModalOpen}
-                   onOk={handleOk}
-                   onCancel={handleCancel}
-                   cancelButtonProps={{style:{display:"none"}}}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                cancelButtonProps={{ style: { display: "none" } }}
             >
                 {content}
             </Modal>

@@ -11,8 +11,7 @@ export const FixedContainer = styled.div`
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
-`;
+ `;
 
 export const DeleteBox = styled.div`
   width: 35px;

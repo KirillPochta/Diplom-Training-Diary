@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebApplication1.Data.UsersBodyProporties;
 using WebApplication1.Models;
 
 namespace WebApplication1.Data
@@ -22,9 +18,10 @@ namespace WebApplication1.Data
         public DbSet<UserBodyProporties> UsersBodyProporties { set; get; }
         public DbSet<Training> Trainings { set; get; }
         public DbSet<UserTraining> UserTrainings { set; get; }
-        public DbSet<AudioTape> Audiotapes { set; get; }
+        public DbSet<Audiotape> Audiotapes { set; get; }
         public DbSet<UserAudiotape> UserAudiotapes { set; get; }
         public DbSet<Notification> Notifications { set; get; }
+        public DbSet<Models.Music> Musics { set; get; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Note>(entity => { entity.HasKey(note => note.Id); });
@@ -32,7 +29,7 @@ namespace WebApplication1.Data
             builder.Entity<User>(entity => { entity.HasKey(e => e.Id); });
             builder.Entity<TagsNote>(entity => { entity.HasKey(e => e.Id); });
             builder.Entity<UserBodyProporties>(entity => { entity.HasKey(e => e.Id); });
-            builder.Entity<AudioTape>(entity => { entity.HasKey(e => e.Id); });
+            builder.Entity<Audiotape>(entity => { entity.HasKey(e => e.Id); });
             builder.Entity<UserAudiotape>(entity => { entity.HasKey(e => e.Id); });
             builder.Entity<Training>(entity => { entity.HasKey(e => e.Id); });
             builder.Entity<UserTraining>(entity => { entity.HasKey(e => e.Id); });

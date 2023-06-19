@@ -116,10 +116,8 @@ const Navbar = () => {
                 .then(
                     async (result) => {
                         toast.success("Сообщение отправлено!")
-
                         console.log("message sent");
                         form.resetFields([])
-                        navigate('/exercises')
                     },
                     (error) => {
                         console.log(error.text);
@@ -207,7 +205,7 @@ const Navbar = () => {
                                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                                         placeholder='Почта' />
                                     <h1>Напишите своё сообщение</h1>
-                                    <textarea style={{ fontSize: "20px", width: "450px", height: '32px' }} name="message" onChange={handleInputChange}
+                                    <textarea style={{ fontSize: "20px", width: "450px", height: '70px' }} name="message" onChange={handleInputChange}
                                         value={formData.message}
                                         placeholder='Сообщение' />
                                 </form>

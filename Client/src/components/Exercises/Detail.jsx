@@ -1,5 +1,5 @@
 import {Button, Stack, Typography} from '@mui/material';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import BodyPartImage from '../../assets/exercises/icons/body-part.png';
 import TargetImage from '../../assets/exercises/icons/target.png';
 import EquipmentImage from '../../assets/exercises/icons/equipment.png';
@@ -21,6 +21,7 @@ const Detail = ({exerciseDetail, showButton, userId}) => {
     const {bodyPart, gifUrl, name, target, equipment} = exerciseDetail;
     const dispatch = useDispatch();
     const [playIndex, setPlayIndex] = useState(0)
+    const [musics, setMusics] = useState(null)
 
     const play = (x) => {
         const index = audioLists.indexOf(x)
@@ -53,6 +54,14 @@ const Detail = ({exerciseDetail, showButton, userId}) => {
         dispatch(createEvent({...event, userId}));
 
     };
+    useEffect(() => {
+        axios.get('https://localhost:44366/api/music/GetAudioTapes')
+            .then(response => {
+                setMusics(response.data);
+                console.log(response.data)
+            })
+            .catch(error => console.log(error));
+    }, [])
     const extraDetail = [
         {
             icon: BodyPartImage,
@@ -128,13 +137,13 @@ const Detail = ({exerciseDetail, showButton, userId}) => {
                     }
                 </Stack>
             </Stack>
-            <ReactJkMusicPlayer
+            {musics ? <ReactJkMusicPlayer
                 playIndex={playIndex}
                 mode="mini"
-                audioLists={audioLists}
+                audioLists={musics}
                 showMediaSession
                 autoPlay={false}
-            />
+            /> : <></>}
         </div>
     );
 };

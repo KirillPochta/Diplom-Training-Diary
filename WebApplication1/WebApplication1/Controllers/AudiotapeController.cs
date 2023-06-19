@@ -1,16 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using WebApplication1.Data.Music;
 using WebApplication1.Dtos;
 using WebApplication1.Models;
-using Microsoft.AspNetCore.Http;
-using System.IO;
 
 namespace WebApplication1.Controllers
 {
-    [Route("audioTape")]
+    [Route("music")]
     [ApiController]
     public class AudiotapeController : Controller
     {
@@ -20,54 +17,48 @@ namespace WebApplication1.Controllers
             _musicRepository = musicRepository;
 
         [HttpPut("UpdatenAudiotape")]
-        public IActionResult PutAudiotape([FromBody] AudioTape music)
+        public IActionResult PutAudiotape([FromBody] Audiotape music)
         {
             _musicRepository.Update(music);
             return Ok(music);
         }
+
         [HttpPost("AddAudiotape")]
-        public async Task<IActionResult> AddAudiotape([FromForm] AudiotapeDto dto)
+        public IActionResult AddAudiotape([FromBody] AudiotapeDto dto)
         {
-            if (dto is null || dto.Image is null || dto.Mp3 is null)
+            try
             {
-                return BadRequest("Некорректные данные запроса.");
+                if (dto.Name.Length < 4) return BadRequest(new { message = "Название слишком короткое!" });
+                if (dto.Author.Length < 4) return BadRequest(new { message = "Имя автора слишком короткое!" });
+                return Created("Песня создана!", _musicRepository.Create(new Audiotape()
+                {
+                    Id = dto.Id,
+                    Name = dto.Name,
+                    Author = dto.Author,
+                    Duration = dto.Duration
+                }));
             }
-            
-           
-            _musicRepository.Create(new AudioTape()
+            catch (Exception)
+            {
+                return BadRequest(new { message = "Проверьте введенные данные!" });
+            }
+        }
+
+        [HttpPost("AddUserAudiotape")]
+        public IActionResult AddUserAudiotape([FromBody] AudiotapeDto dto)
+        {
+            List<UserAudiotape> userAudiotapes = _musicRepository.GetUserAudiotapeIds(dto.UserId);
+            for (int i = 0; i < userAudiotapes.Count; i++)
+            {
+                if (userAudiotapes[i].AudiotapeId.Equals(dto.AudiotapeId)) return BadRequest(new { msg = "Вы уже добавили такою песню!" });
+            }
+            return Created("Песня добавлено в ваш кабинет!", _musicRepository.CreateUserAudiotape(new UserAudiotape()
             {
                 Id = Guid.NewGuid(),
-                Name = dto.Name,
-                Author = dto.Author,
-                Image = await GetByteArray(dto.Image),
-                Mp3 = await GetByteArray(dto.Mp3)
-            });
-            return Ok(new { message = "Успешное добавление аудиозаписи!" });
-
+                UserId = dto.UserId,
+                AudiotapeId = dto.AudiotapeId
+            }));
         }
-        private async Task<byte[]> GetByteArray(IFormFile file)
-        {
-            using MemoryStream stream = new();
-            await file.CopyToAsync(stream);
-            byte[] bytesArray = stream.ToArray();
-
-            return bytesArray;
-        }
-        //[HttpPost("AddUserAudiotape")]
-        //public IActionResult AddUserAudiotape([FromBody] AudiotapeDto dto)
-        //{
-        //    List<UserAudiotape> userAudiotapes = _musicRepository.GetUserAudiotapeIds(dto.UserId);
-        //    for (int i = 0; i < userAudiotapes.Count; i++)
-        //    {
-        //        if (userAudiotapes[i].AudiotapeId.Equals(dto.AudiotapeId)) return BadRequest(new { msg = "Вы уже добавили такою песню!" });
-        //    }
-        //    return Created("Песня добавлено в ваш кабинет!", _musicRepository.CreateUserAudiotape(new UserAudiotape()
-        //    {
-        //        Id = Guid.NewGuid(),
-        //        UserId = dto.UserId,
-        //        AudiotapeId = dto.AudiotapeId
-        //    }));
-        //}
         [HttpDelete("DeleteAudiotape/{id}")]
         public IActionResult DeleteAudiotape(string id)
         {
@@ -76,37 +67,37 @@ namespace WebApplication1.Controllers
 
         }
 
-        //[HttpDelete("DeleteUserAudiotape")]
-        //public IActionResult DeleteUserAudiotape([FromBody] AudiotapeDto dto)
-        //{
-        //    try
-        //    {
-        //        _musicRepository.DeleteUserAudiotape(dto.UserId, dto.AudiotapeId);
-        //        return Ok(new { message = "Песня удалена!" });
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return BadRequest(new { message = "Такой песни у вас больше нет!" });
-        //    }
-        //}
+        [HttpDelete("DeleteUserAudiotape")]
+        public IActionResult DeleteUserAudiotape([FromBody] AudiotapeDto dto)
+        {
+            try
+            {
+                _musicRepository.DeleteUserAudiotape(dto.UserId, dto.AudiotapeId);
+                return Ok(new { message = "Песня удалена!" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { message = "Такой песни у вас больше нет!" });
+            }
+        }
 
 
         [HttpGet("GetAudiotapeById/{id}")]
-        public Models.AudioTape GetAudiotapeById(string id)
+        public Models.Audiotape GetAudiotapeById(string id)
         {
             return _musicRepository.Get(id);
         }
 
         [HttpGet("GetUserAudiotapes/{id}")]
-        public IEnumerable<AudioTape> GetUserAudiotapes(Guid id)
+        public IEnumerable<Models.Audiotape> GetUserAudiotapes(Guid id)
         {
             return _musicRepository.GetUserAudiotapes(id);
         }
-        //[HttpGet("GetUserAudiotape")]
-        //public Models.Audiotape GetUserAudiotape([FromBody] Dtos.AudiotapeDto dto)
-        //{
-        //    return _musicRepository.GetUserAudiotape(dto.UserId, dto.AudiotapeId);
-        //}
+        [HttpGet("GetUserAudiotape")]
+        public Models.Audiotape GetUserAudiotape([FromBody] Dtos.AudiotapeDto dto)
+        {
+            return _musicRepository.GetUserAudiotape(dto.UserId, dto.AudiotapeId);
+        }
 
         [HttpGet("GetUserAudiotapeCount/{id}")]
         public int GetUserAudiotapeCount(Guid id)

@@ -35,8 +35,6 @@ namespace WebApplication1.Data.UsersBodyProporties
 
         public void Update(UserBodyProporties bProp)
         {
-            bProp.BodyMassIndex = (int)(bProp.Weight / Math.Pow(bProp.Height * 0.01, 2));
-            bProp.UserFatness = GetUserFatness(bProp.BodyMassIndex);
             _context.Entry(bProp).State = EntityState.Modified;
             _context.SaveChanges();
         }

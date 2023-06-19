@@ -22,7 +22,6 @@ namespace WebApplication1.Data.Notifications
 
         public void Delete(Guid id)
         {
-            string trainingName = _context.Notifications.FirstOrDefault(i => i.Id.Equals(id)).Name;
             _context.Notifications.Remove(_context.Notifications.FirstOrDefault(i => i.Id.Equals(id)));
             _context.SaveChanges();
         }

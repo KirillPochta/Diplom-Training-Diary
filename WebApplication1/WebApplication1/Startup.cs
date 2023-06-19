@@ -58,13 +58,9 @@ namespace WebApplication1
             services.AddScoped<ITrainingRepository, TrainingRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<IAudiotapeRepository, AudiotapeRepository>();
+            services.AddScoped<IMusicRepository, MusicRepository>();
             services.AddScoped<JwtService>();
             services.AddSwaggerGen();
-            //services.AddControllers(options =>
-            //{
-            //    options.RespectBrowserAcceptHeader = true;
-            //    options.
-            //}).AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,17 +72,19 @@ namespace WebApplication1
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseRouting();
+
             app.UseCors(options => options
                 .WithOrigins(new[] { "http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "http://localhost:8080" })
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials()
             );
-
+            
             app.UseAuthorization();
-
+                
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

@@ -208,8 +208,8 @@ export const MusicPage = () => {
             {
                 musics.map(x => (
                     <div style={{ display: 'flex', margin: '5px' }}>
-                        <img src={x.cover} width={50} height={50} style={{ borderRadius: "50%" }} />
-                        <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px', width: '500px' }}>
+                        <img src={x.cover} width={60} height={60} style={{ borderRadius: "50%" }} />
+                        <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px', width: '500px', fontSize:'20px' }}>
                             <h3>{x.name}</h3>
                             <span>{x.singer}</span>
                         </div>

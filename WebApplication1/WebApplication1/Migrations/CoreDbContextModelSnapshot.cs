@@ -38,6 +38,30 @@ namespace WebApplication1.Migrations
                     b.ToTable("Audiotapes");
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.Music", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Cover")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MusicSrc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Singer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Musics");
+                });
+
             modelBuilder.Entity("WebApplication1.Models.Note", b =>
                 {
                     b.Property<Guid>("Id")
@@ -45,6 +69,12 @@ namespace WebApplication1.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Date")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EventDate")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsPinned")
@@ -95,11 +125,11 @@ namespace WebApplication1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Date")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("NotificationDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -202,19 +232,19 @@ namespace WebApplication1.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2a0513e8-e90c-4bd2-a903-106cc02bcfde"),
+                            Id = new Guid("fac5222d-d268-4388-83cd-4cf5a35560fd"),
                             NoteId = new Guid("5b6f9eb1-eb1a-42fd-a10c-c5182fcfbd1b"),
                             TagId = new Guid("0862a850-20d5-44d0-b3d9-876790c99b84")
                         },
                         new
                         {
-                            Id = new Guid("76990253-29dc-4303-9ba8-e7c212081ffa"),
+                            Id = new Guid("ed80a509-f160-4d80-8b5a-1c30149236a3"),
                             NoteId = new Guid("5b6f9eb1-eb1a-42fd-a10c-c5182fcfbd1b"),
                             TagId = new Guid("7b36766c-5e19-44ab-93b0-f3f0d39997d4")
                         },
                         new
                         {
-                            Id = new Guid("61327996-5cbe-4ab1-9311-054f95d376cd"),
+                            Id = new Guid("8d0800b4-6ac9-4664-8dcc-45e4736d5dd1"),
                             NoteId = new Guid("7545c85f-1238-43df-bdd4-2ca2f62003e2"),
                             TagId = new Guid("ecd8cdc5-db46-44ec-aadc-291946310cb4")
                         });
@@ -254,14 +284,17 @@ namespace WebApplication1.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FavMusic")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Interests")
                         .HasColumnType("nvarchar(max)");
@@ -293,7 +326,7 @@ namespace WebApplication1.Migrations
                             FirstName = "Kira",
                             Gender = "Male",
                             Interests = "I am fat guy :(",
-                            Joined = new DateTime(2023, 5, 3, 23, 11, 4, 832, DateTimeKind.Local).AddTicks(6094),
+                            Joined = new DateTime(2023, 6, 12, 1, 13, 41, 850, DateTimeKind.Local).AddTicks(2111),
                             LastName = "Kira",
                             Password = "$2a$12$oPwFcsM8GdQId4Dk1/0WSOaCFPegd0i6Z2mR.E6cG4Zn2OUUyMDpa",
                             RoleId = 2
@@ -306,7 +339,7 @@ namespace WebApplication1.Migrations
                             FirstName = "admin",
                             Gender = "Female",
                             Interests = "I love doing push ups",
-                            Joined = new DateTime(2023, 5, 3, 23, 11, 4, 833, DateTimeKind.Local).AddTicks(6408),
+                            Joined = new DateTime(2023, 6, 12, 1, 13, 41, 850, DateTimeKind.Local).AddTicks(7426),
                             LastName = "admin",
                             Password = "$2a$12$uCdrOY2Rmmh5xH6Pz/YNXOPsTMzAI9BiHw6aQro.K/d/YggAJ7B4e",
                             RoleId = 1
@@ -395,7 +428,7 @@ namespace WebApplication1.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3d7b2b4c-2703-4149-9ca9-36d37a4771b8"),
+                            Id = new Guid("7f87a6de-0fa3-4958-8a31-074a2b4cb03c"),
                             Activity = "Тренировки 1-3 раза в неделю",
                             BodyMassIndex = 27,
                             Chest = 41,
@@ -414,7 +447,7 @@ namespace WebApplication1.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6ee05800-20a7-45b3-ac44-d8c3f0c38db5"),
+                            Id = new Guid("0cbe525e-09de-4d95-8260-fb8e38d12322"),
                             Activity = "Тренировки 3-5 раза в неделю",
                             BodyMassIndex = 27,
                             Chest = 41,

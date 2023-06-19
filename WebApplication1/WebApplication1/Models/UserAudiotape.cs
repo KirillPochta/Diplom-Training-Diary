@@ -12,6 +12,6 @@ namespace WebApplication1.Models
         public Guid UserId { get; set; }
         public string AudiotapeId { get; set; }
         [JsonIgnore] public User User { get; internal set; }
-        [JsonIgnore] public AudioTape Audiotape { get; internal set; }
+        [JsonIgnore] public Audiotape Audiotape { get; internal set; }
     }
 }

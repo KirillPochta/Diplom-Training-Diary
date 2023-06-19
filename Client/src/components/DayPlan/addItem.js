@@ -26,6 +26,11 @@ class AddItem extends PureComponent {
       total_calories: 0
     };
   }
+
+  onComponentDidUpdate() {
+    console.log('AddItem component updated:');
+  }
+
   componentDidMount() {
     const data = this.props.data;
     this.setState({
@@ -36,7 +41,7 @@ class AddItem extends PureComponent {
       serving_qty: 1,
       nf_calories: data.nf_calories,
       serving_size: data.serving_size,
-      meal_type: 'Завтрак',
+      meal_type: 'breakfast',
       thumb: data.thumb,
       total_grams: data.serving_weight_grams,
       total_calories: data.nf_calories,
@@ -123,15 +128,15 @@ class AddItem extends PureComponent {
                     value={this.state.meal_type}
                     onChange={this.handleMealTimeChange}
                     input={<Input style={{ zIndex: 9999 }} />}
-                    placeholder="Завтрак"
+                    placeholder="Breakfast"
                   >
                     <MenuItem value="">
                       <em>Пусто</em>
                     </MenuItem>
-                    <MenuItem value={'Завтрак'}>Завтрак</MenuItem>
-                    <MenuItem value={'Обед'}>Обед</MenuItem>
-                    <MenuItem value={'Ужин'}>Ужин</MenuItem>
-                    <MenuItem value={'Перекус'}>Перекус</MenuItem>
+                    <MenuItem value={'breakfast'}>Завтрак</MenuItem>
+                    <MenuItem value={'lunch'}>Обед</MenuItem>
+                    <MenuItem value={'dinner'}>Ужин</MenuItem>
+                    <MenuItem value={'snack'}>Перекус</MenuItem>
                   </Select>
                 </div>
                 <Button

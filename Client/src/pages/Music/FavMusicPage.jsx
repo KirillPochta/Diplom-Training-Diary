@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { createEventMusic } from '../../features/event/eventSlice';
 import { formatDate } from "../../utils/date";
 import BgImg from '../../assets/bgImg.jpg'
+import RemoveCircleOutlineTwoToneIcon from '@mui/icons-material/RemoveCircleOutlineTwoTone';
 
 
 export const FavMusicPage = () => {
@@ -85,7 +86,14 @@ export const FavMusicPage = () => {
         const index = musics.indexOf(x)
         setPlayIndex(index)
     }
-
+    const handleDeleteMusic = async (id) => {
+        await axios.delete('https://localhost:44366/api/music/Delete/' + id)
+        await axios.get('https://localhost:44366/api/music/GetAudioTapes')
+            .then(response => {
+                setMusics(response.data);
+            })
+            .catch(error => console.log(error));
+    }
     return (
         <Box style={{
             padding: '0 100px 80px 100px', backgroundImage: `url(${BgImg})`,
@@ -104,8 +112,8 @@ export const FavMusicPage = () => {
             {
                 musics?.filter(x => user?.favMusic?.split(',').includes(musics.indexOf(x).toString())).map(x => (
                     <div style={{ display: 'flex', margin: '5px' }}>
-                        <img src={x.cover} width={50} height={50} />
-                        <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px', width: '500px' }}>
+                        <img src={x.cover} width={60} height={60} style={{ borderRadius: "50%" }} />
+                        <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px', width: '500px', fontSize:'20px' }}>
                             <h3>{x.name}</h3>
                             <span>{x.singer}</span>
                         </div>
@@ -113,13 +121,20 @@ export const FavMusicPage = () => {
                             width: '100%', display: 'flex', flexDirection: 'row-reverse',
                             alignContent: 'center', flexWrap: 'wrap'
                         }}>
-                            {user?.favMusic?.split(',').includes(musics.indexOf(x).toString()) ?
-                                <FavoriteIcon onClick={() => handleFavChange(false, musics.indexOf(x))}
-                                    style={{ transform: 'scale(1.8)', margin: '0 15px' }} /> :
-                                <FavoriteBorderIcon onClick={() => handleFavChange(true, musics.indexOf(x))}
-                                    style={{ transform: 'scale(1.8)', margin: '0 15px' }} />
+                            {!user ?
+                                (<PlayCircleIcon style={{ transform: 'scale(1.8)', margin: '0 15px' }} onClick={() => play(x)} />)
+                                :
+                                <> {user.roleId === 1 ? <RemoveCircleOutlineTwoToneIcon onClick={() => handleDeleteMusic(x.id)} style={{ transform: 'scale(1.8)', margin: '0 15px' }} /> : null }
+                                    {user?.favMusic?.split(',').includes(musics.indexOf(x).toString()) ?
+                                        <FavoriteIcon onClick={() => handleFavChange(false, musics.indexOf(x))}
+                                            style={{ transform: 'scale(1.8)', margin: '0 15px' }} /> :
+                                        <FavoriteBorderIcon onClick={() => handleFavChange(true, musics.indexOf(x))}
+                                            style={{ transform: 'scale(1.8)', margin: '0 15px' }} />
+                                    }
+                                    <PlayCircleIcon style={{ transform: 'scale(1.8)', margin: '0 15px' }} onClick={() => play(x)} />
+                                </>
                             }
-                            <PlayCircleIcon style={{ transform: 'scale(1.8)', margin: '0 15px' }} onClick={() => play(x)} />
+
                         </div>
                     </div>))
             }

@@ -17,7 +17,7 @@ export const CabinetPage = () => {
     const [playIndex, setPlayIndex] = useState(0)
 
     const play = (x) => {
-        const index = audioLists.indexOf(x)
+        const index = musics.indexOf(x)
         setPlayIndex(index)
     }
     useEffect(() => {

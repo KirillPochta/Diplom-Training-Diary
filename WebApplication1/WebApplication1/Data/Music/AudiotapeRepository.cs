@@ -13,7 +13,7 @@ namespace WebApplication1.Data.Music
         public AudiotapeRepository(CoreDbContext context) =>
             _context = context;
 
-        public AudioTape Create(AudioTape audiotape)
+        public Audiotape Create(Audiotape audiotape)
         {
             _context.Add(audiotape);
             _context.SaveChanges();
@@ -29,15 +29,10 @@ namespace WebApplication1.Data.Music
 
         public void Delete(string id)
         {
-            _context.Audiotapes.Remove(_context.Audiotapes.FirstOrDefault(i => i.Id.Equals(id)));
+             _context.Audiotapes.Remove(_context.Audiotapes.FirstOrDefault(i => i.Id.Equals(id)));
             _context.SaveChanges();
         }
 
-        public void Update(AudioTape audiotape)
-        {
-            _context.Entry(audiotape).State = EntityState.Modified;
-            _context.SaveChanges();
-        }
         public void DeleteUserAudiotape(Guid userId, string audiotapeId)
         {
             _context.UserAudiotapes.Remove(
@@ -45,23 +40,23 @@ namespace WebApplication1.Data.Music
             _context.SaveChanges();
         }
 
-        public AudioTape Get(string id)
+        public Audiotape Get(string id)
         {
             return _context.Audiotapes.FirstOrDefault(i => i.Id.Equals(id));
         }
 
-        public AudioTape GetUserAudiotape(Guid userId, string audiotapeId)
+        public Audiotape GetUserAudiotape(Guid userId, string audiotapeId)
         {
             UserAudiotape userAudiotape = _context.UserAudiotapes.FirstOrDefault(i => i.UserId.Equals(userId) && i.AudiotapeId.Equals(audiotapeId));
-            AudioTape audiotape = _context.Audiotapes.FirstOrDefault(i => i.Id.Equals(userAudiotape.AudiotapeId));
+            Audiotape audiotape = _context.Audiotapes.FirstOrDefault(i => i.Id.Equals(userAudiotape.AudiotapeId));
             return audiotape;
         }
 
 
-        public List<AudioTape> GetUserAudiotapes(Guid userId)
+        public List<Audiotape> GetUserAudiotapes(Guid userId)
         {
             List<UserAudiotape> userAudiotapes = _context.UserAudiotapes.Where(i => i.UserId.Equals(userId)).ToList();
-            List<AudioTape> audiotapes = new List<AudioTape>();
+            List<Audiotape> audiotapes = new List<Audiotape>();
             for (int i = 0; i < userAudiotapes.Count; i++)
             {
                 audiotapes.Add(_context.Audiotapes.FirstOrDefault(j => j.Id.Equals(userAudiotapes[i].AudiotapeId)));
@@ -77,6 +72,10 @@ namespace WebApplication1.Data.Music
             return _context.UserAudiotapes.Where(i => i.UserId.Equals(id)).Count();
         }
 
-        
+        public void Update(Audiotape audiotape)
+        {
+            _context.Entry(audiotape).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
     }
 }
